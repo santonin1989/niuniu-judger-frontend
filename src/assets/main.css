@@ -1,0 +1,11 @@
+@import './base.css';
+
+#app {
+  min-width: 600px;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  font-weight: normal;
+  height: 100vh;
+  overflow-y: hidden;
+}

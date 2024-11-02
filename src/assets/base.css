@@ -1,0 +1,49 @@
+/* semantic color variables for this project */
+:root {
+  --color-background: #1b1623;
+  --color-background-half: rgba(21, 18, 25, 0.75);
+  --color-theme: #09feeb;
+
+  --color-heading: #ffffff;
+  --color-text: #c8c8c8;
+
+  --card-border-radius: 20px;
+
+  --border: 2px solid var(--color-theme);
+
+  --blur: blur(28px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+  transition: color 0.3s ease-out;
+}
+
+body {
+  overflow-y: hidden;
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background);
+  line-height: 1.6;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,6 +1,6 @@
 <template>
   <div class="top-navigation">
-    <div class="title">Niuniu Judger</div>
+    <div @click="goHome" class="title">Niuniu Judger</div>
     <div class="seven-niu">
       <img :src="niuniu" alt="logo" />
       <img :src="niuniu" alt="logo" />
@@ -24,6 +24,10 @@
 
 <script setup lang="ts">
 import niuniu from '@/components/icons/niuniu.svg'
+
+const goHome = () => {
+  window.location.href = '/'
+}
 </script>
 
 <style scoped lang="less">
@@ -39,6 +43,19 @@ import niuniu from '@/components/icons/niuniu.svg'
   .links a:hover {
     color: var(--color-theme);
     cursor: pointer;
+    &::after {
+      width: 100%;
+    }
+  }
+
+  .title::after,
+  .links a::after {
+    content: '';
+    display: block;
+    width: 0%;
+    height: 2px;
+    background-color: var(--color-theme);
+    transition: width 0.3s ease-in-out;
   }
 
   .title {
@@ -52,8 +69,8 @@ import niuniu from '@/components/icons/niuniu.svg'
     justify-content: space-evenly;
 
     img {
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
     }
   }
 

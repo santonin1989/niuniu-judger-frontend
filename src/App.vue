@@ -29,6 +29,7 @@ import QiniuCloud from './components/QiniuCloud.vue'
 
   .search-container {
     height: 100%;
+    flex-basis: 500px;
     flex-grow: 2;
     display: flex;
     flex-direction: column;
@@ -36,11 +37,12 @@ import QiniuCloud from './components/QiniuCloud.vue'
     row-gap: 1.5rem;
   }
   .rec-card-list {
+    flex-basis: 300px;
     flex-grow: 1;
   }
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 1150px) {
   .three-col-container {
     justify-content: center;
     padding: 0 2rem;

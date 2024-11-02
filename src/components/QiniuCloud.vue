@@ -23,7 +23,7 @@ const nius = [1, 2, 3, 4, 5, 6, 7]
   transform: translateX(-50%);
   z-index: -1;
   width: 72vw;
-  min-width: 600px;
+  min-width: 680px;
   max-width: 1000px;
   padding: 0;
   margin: 0;
@@ -40,7 +40,7 @@ const nius = [1, 2, 3, 4, 5, 6, 7]
     width: 80px;
     height: 80px;
     position: absolute;
-    bottom: -100%;
+    bottom: -100vh;
     animation-duration: 1200ms;
     animation-timing-function: cubic-bezier(0.52, 1, 0.74, 1);
     animation-fill-mode: forwards;

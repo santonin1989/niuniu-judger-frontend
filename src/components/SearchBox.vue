@@ -101,7 +101,7 @@ const clearInput = () => {
       align-items: center;
 
       &.active {
-        color: var(--color-theme);
+        color: var(--color--theme-text);
       }
     }
 
@@ -113,7 +113,7 @@ const clearInput = () => {
       background: linear-gradient(
         180deg,
         rgba(9, 254, 235, 0.43) 0%,
-        rgba(5, 152, 141, 0.0258) 100%
+        rgba(9, 254, 235, 0) 71.05%
       );
       z-index: -1;
       width: var(--active-width);

@@ -36,7 +36,9 @@
 <script setup lang="ts">
 import searchIcon from '@/components/icons/search.svg'
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const tabs = ['开发者', '领域']
 const activeTab = ref(0) // 当前选中的标签
 const placeholder = computed(() => {
@@ -50,9 +52,17 @@ const userInput = ref('') // 用户输入内容
 
 const search = () => {
   console.log(userInput.value)
+  if (userInput.value) {
+    if (activeTab.value === 0) {
+      router.push({ name: 'search', query: { name: userInput.value } })
+    } else {
+      router.push({ name: 'search', query: { domain: userInput.value } })
+    }
+  }
 }
 const clearInput = () => {
   userInput.value = ''
+  router.push({ path: '/' })
 }
 </script>
 

@@ -1,10 +1,8 @@
 <script setup lang="ts">
-// import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import TopNavigation from './components/TopNavigation.vue'
-import SearchBox from './components/SearchBox.vue'
 import RecList from './components/RecList.vue'
 import QiniuCloud from './components/QiniuCloud.vue'
-import SearchResult from './components/SearchResult.vue'
 </script>
 
 <template>
@@ -15,8 +13,7 @@ import SearchResult from './components/SearchResult.vue'
   <div class="three-col-container">
     <RecList class="rec-card-list" />
     <div class="search-container">
-      <SearchBox />
-      <SearchResult />
+      <RouterView />
     </div>
     <RecList class="rec-card-list" />
   </div>
@@ -37,6 +34,9 @@ import SearchResult from './components/SearchResult.vue'
     flex-direction: column;
     align-items: center;
     row-gap: 1.5rem;
+  }
+  .rec-card-list {
+    flex-grow: 1;
   }
 }
 

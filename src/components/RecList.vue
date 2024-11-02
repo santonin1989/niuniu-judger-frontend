@@ -12,9 +12,9 @@ import RecCard from './RecCard.vue'
 
 <style scoped lang="less">
 .rec-list {
-  flex-grow: 1;
+  width: 100%;
   min-width: 280px;
-  max-width: 300px;
+  max-width: 320px;
   height: 100%;
   display: flex;
   flex-direction: column;

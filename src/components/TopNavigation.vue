@@ -11,7 +11,11 @@
       <img :src="niuniu" alt="logo" />
     </div>
     <div class="links">
-      <a href="#" target="_blank">大赛官网</a>
+      <a
+        href="https://www.qiniu.com/activity/detail/66cfe17084a4441c29b08be9"
+        target="_blank"
+        >大赛官网</a
+      >
       <a href="#" target="_blank">算法说明</a>
       <a href="#" target="_blank">GitHub</a>
     </div>

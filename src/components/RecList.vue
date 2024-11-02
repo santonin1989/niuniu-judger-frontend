@@ -19,6 +19,7 @@ import RecCard from './RecCard.vue'
   display: flex;
   flex-direction: column;
   row-gap: 24px;
+  padding-bottom: 24px;
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;

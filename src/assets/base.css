@@ -1,7 +1,7 @@
 /* semantic color variables for this project */
 :root {
   --color-background: #1b1623;
-  --color-background-half: rgba(21, 18, 25, 0.75);
+  --color-background-half: rgba(21, 18, 25, 0.5);
   --color-theme: #09feeb;
 
   --color-heading: #ffffff;

@@ -29,10 +29,9 @@ import RecList from './components/RecList.vue'
 }
 
 .three-col-container {
-  height: calc(100vh - 96px - 20px);
+  height: calc(100vh - 96px);
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
   width: 100%;
   column-gap: 3%;
 }

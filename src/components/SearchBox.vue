@@ -1,11 +1,16 @@
 <template>
   <div class="search-box">
     <div class="container">
-      <div class="tabs">
-        <input type="radio" name="tabs" id="tab1" checked />
-        <label for="tab1">开发者</label>
-        <input type="radio" name="tabs" id="tab2" />
-        <label for="tab2">领域</label>
+      <div class="tabs" :style="{ '--active': activeTab }">
+        <div
+          v-for="(tab, index) in tabs"
+          :key="index"
+          @click="activeTab = index"
+          :class="{ active: activeTab === index }"
+          class="tab"
+        >
+          {{ tab }}
+        </div>
       </div>
       <div class="search-input">
         <form class="form" @submit.prevent="search">
@@ -13,10 +18,13 @@
             v-model="userInput"
             class="input"
             type="text"
-            placeholder="搜索开发者或领域"
+            :placeholder
+            maxlength="20"
           />
           <div class="icon-container">
-            <div class="clear-btn">清除</div>
+            <div v-show="userInput" @click="clearInput" class="clear-btn">
+              清除
+            </div>
             <img @click="search" class="icon" :src="searchIcon" alt="搜索" />
           </div>
         </form>
@@ -27,11 +35,24 @@
 
 <script setup lang="ts">
 import searchIcon from '@/components/icons/search.svg'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
-const userInput = ref('')
+const tabs = ['开发者', '领域']
+const activeTab = ref(0) // 当前选中的标签
+const placeholder = computed(() => {
+  if (activeTab.value === 0) {
+    return '输入GitHub用户名搜索开发者...'
+  } else {
+    return '输入领域名称搜索领域开发者...'
+  }
+})
+const userInput = ref('') // 用户输入内容
+
 const search = () => {
   console.log(userInput.value)
+}
+const clearInput = () => {
+  userInput.value = ''
 }
 </script>
 
@@ -49,7 +70,7 @@ const search = () => {
 
   .tabs {
     display: flex;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     font-size: 0.9rem;
     height: 2rem;
     position: relative;
@@ -59,11 +80,7 @@ const search = () => {
     --active-width: 80px;
     user-select: none;
 
-    input {
-      display: none;
-    }
-
-    label {
+    .tab {
       font-weight: normal;
       width: var(--tab-width);
       cursor: pointer;
@@ -72,10 +89,10 @@ const search = () => {
       display: flex;
       justify-content: center;
       align-items: center;
-    }
 
-    input:checked + label {
-      color: var(--color-theme);
+      &.active {
+        color: var(--color-theme);
+      }
     }
 
     &::after {
@@ -95,14 +112,6 @@ const search = () => {
       transform: translateX(calc(var(--active) * var(--tab-width)));
       transition: transform 0.3s ease-in-out;
     }
-
-    &:has(:checked:nth-of-type(1)) {
-      --active: 0;
-    }
-
-    &:has(:checked:nth-of-type(2)) {
-      --active: 1;
-    }
   }
 
   .search-input {
@@ -114,6 +123,7 @@ const search = () => {
     display: flex;
     align-items: center;
     box-sizing: border-box;
+    box-shadow: 0px 0px 20px rgba(0, 254, 235, 0.4);
 
     .form {
       display: flex;

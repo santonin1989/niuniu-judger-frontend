@@ -146,7 +146,7 @@ const nius = [1, 2, 3, 4, 5, 6, 7]
   to {
     transform: rotate(320deg);
     bottom: 50vh;
-    left: 72%;
+    left: 76%;
     scale: 1.1;
   }
 }

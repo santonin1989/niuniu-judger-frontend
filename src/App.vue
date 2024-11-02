@@ -4,6 +4,7 @@ import TopNavigation from './components/TopNavigation.vue'
 import SearchBox from './components/SearchBox.vue'
 import RecList from './components/RecList.vue'
 import QiniuCloud from './components/QiniuCloud.vue'
+import SearchResult from './components/SearchResult.vue'
 </script>
 
 <template>
@@ -13,7 +14,10 @@ import QiniuCloud from './components/QiniuCloud.vue'
 
   <div class="three-col-container">
     <RecList class="rec-card-list" />
-    <SearchBox clas="search-box" />
+    <div class="search-container">
+      <SearchBox />
+      <SearchResult />
+    </div>
     <RecList class="rec-card-list" />
   </div>
 </template>
@@ -25,6 +29,15 @@ import QiniuCloud from './components/QiniuCloud.vue'
   justify-content: space-between;
   width: 100%;
   column-gap: 3%;
+
+  .search-container {
+    height: 100%;
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 1.5rem;
+  }
 }
 
 @media screen and (max-width: 992px) {

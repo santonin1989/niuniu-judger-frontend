@@ -11,7 +11,7 @@
 
   --border: 2px solid var(--color-theme);
 
-  --blur: blur(28px);
+  --blur: blur(16px);
 }
 
 *,
@@ -20,7 +20,9 @@
   box-sizing: border-box;
   margin: 0;
   font-weight: normal;
-  transition: color 0.3s ease-out;
+  transition:
+    color 0.3s ease-out,
+    background-color 0.3s ease-out;
 }
 
 body {

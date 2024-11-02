@@ -58,7 +58,7 @@ const clearInput = () => {
 
 <style scoped lang="less">
 .search-box {
-  flex-grow: 2;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,7 +72,7 @@ const clearInput = () => {
     display: flex;
     margin-bottom: 8px;
     font-size: 0.9rem;
-    height: 2rem;
+    height: 32px;
     position: relative;
     isolation: isolate;
     --active: 0;
@@ -123,7 +123,7 @@ const clearInput = () => {
     display: flex;
     align-items: center;
     box-sizing: border-box;
-    box-shadow: 0px 0px 20px rgba(0, 254, 235, 0.4);
+    box-shadow: 0px 0px 16px rgba(0, 254, 235, 0.32);
 
     .form {
       display: flex;

@@ -3,10 +3,12 @@
 import TopNavigation from './components/TopNavigation.vue'
 import SearchBox from './components/SearchBox.vue'
 import RecList from './components/RecList.vue'
+import QiniuCloud from './components/QiniuCloud.vue'
 </script>
 
 <template>
-  <img class="bg-img" src="/一朵云.png" alt="一朵云" />
+  <QiniuCloud />
+
   <TopNavigation />
 
   <div class="three-col-container">
@@ -17,17 +19,6 @@ import RecList from './components/RecList.vue'
 </template>
 
 <style scoped lang="less">
-.bg-img {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  z-index: -1;
-  width: 72vw;
-  min-width: 600px;
-  max-width: 1000px;
-}
-
 .three-col-container {
   height: calc(100vh - 96px);
   display: flex;

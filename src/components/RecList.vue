@@ -12,9 +12,7 @@ import RecCard from './RecCard.vue'
 
 <style scoped lang="less">
 .rec-list {
-  width: 100%;
-  min-width: 280px;
-  max-width: 320px;
+  width: 320px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -22,7 +20,6 @@ import RecCard from './RecCard.vue'
   padding: 24px 0;
   overflow-y: scroll;
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 ::-webkit-scrollbar {

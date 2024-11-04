@@ -36,10 +36,6 @@ import QiniuCloud from './components/QiniuCloud.vue'
     align-items: center;
     row-gap: 1.5rem;
   }
-  .rec-card-list {
-    flex-basis: 300px;
-    flex-grow: 1;
-  }
 }
 
 @media screen and (max-width: 1150px) {

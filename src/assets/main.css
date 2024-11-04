@@ -10,3 +10,9 @@
   height: 100vh;
   overflow-y: hidden;
 }
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

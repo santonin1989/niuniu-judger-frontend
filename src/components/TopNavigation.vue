@@ -39,6 +39,11 @@ const goHome = () => {
   height: 60px;
   user-select: none;
 
+  .title,
+  .links a {
+    transition: color 0.3s ease-out;
+  }
+
   .title:hover,
   .links a:hover {
     color: var(--color-theme);
@@ -60,6 +65,7 @@ const goHome = () => {
 
   .title {
     font-size: 2rem;
+    font-weight: bold;
     color: var(--color-heading);
   }
 

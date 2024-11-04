@@ -186,6 +186,7 @@ const changePage = (page: number) => {
       column-gap: 4px;
 
       .icon {
+        transition: none;
         width: 2rem;
         height: 2rem;
         border-radius: 0.5rem;

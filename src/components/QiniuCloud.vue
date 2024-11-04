@@ -17,6 +17,8 @@ const nius = [1, 2, 3, 4, 5, 6, 7]
 
 <style lang="less" scoped>
 .bg-img {
+  --animation-timing-func: cubic-bezier(0.18, 1, 0.58, 1);
+  --animation-duration: 1000ms;
   position: absolute;
   left: 50%;
   bottom: 0px;
@@ -41,8 +43,8 @@ const nius = [1, 2, 3, 4, 5, 6, 7]
     height: 80px;
     position: absolute;
     bottom: -100vh;
-    animation-duration: 1200ms;
-    animation-timing-function: cubic-bezier(0.52, 1, 0.74, 1);
+    animation-duration: var(--animation-duration);
+    animation-timing-function: var(--animation-timing-func);
     animation-fill-mode: forwards;
     animation-delay: 500ms;
   }

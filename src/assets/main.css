@@ -5,14 +5,30 @@
   min-width: 560px;
   max-width: 1500px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.2rem;
   font-weight: normal;
   height: 100vh;
   overflow-y: hidden;
 }
 
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.only-one-line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.only-two-line {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.only-three-line {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

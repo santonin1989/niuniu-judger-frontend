@@ -24,39 +24,18 @@
           <div v-if="item.fullname" class="data-desc">{{ item.fullname }}</div>
         </div>
       </div>
-      <!-- 仓库 -->
-      <div v-for="i in 2" :key="i" class="repo-list">
-        <!-- 分割线 -->
-        <div class="separator"></div>
-        <div class="repo">
-          <!-- 头部信息 -->
-          <div class="header">
-            <div class="title">
-              <a href="#" target="_blank">repository-name</a>
-            </div>
-            <div class="data-display">
-              <div v-for="item in repoData" :key="item.title" class="data-item">
-                <div class="data-title">{{ item.title }}</div>
-                <div class="data-value">{{ item.value }}</div>
-                <div v-if="item.fullname" class="data-desc">
-                  {{ item.fullname }}
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- 仓库描述 -->
-          <div class="desc only-two-line">
-            This is a repository description.This is a repository
-            description.This is a repository description.This is a repository
-            description.
-          </div>
-          <!-- 相关信息 -->
-          <div class="related-info">
-            <div v-for="i in 3" :key="i" class="info-item">
-              <img src="/star.png" alt="star" />
-              <div class="info">1,392</div>
-            </div>
-          </div>
+      <!-- 分割线 -->
+      <div class="separator"></div>
+      <!-- 开发者评价 -->
+      <div class="comment-container">
+        <div class="quotation-wrapper up">
+          <img class="quotation" :src="quotation" />
+        </div>
+        <div class="comment" ref="commentElement">
+          我是对开发者的评价啊啊啊啊啊我是对开发者的评价啊啊啊啊啊我是对开发者的评价啊啊啊啊啊我是对开发者的评价啊啊啊啊啊
+        </div>
+        <div class="quotation-wrapper down">
+          <img class="quotation" :src="quotation" />
         </div>
       </div>
     </template>
@@ -82,6 +61,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import quotation from '@/components/icons/quotation.svg'
 
 const cardType = ref('developer')
 // const props = defineProps<{
@@ -107,19 +87,6 @@ const personalData = [
     title: 'Repo.',
     value: '36',
     fullname: 'Repository',
-  },
-]
-
-const repoData = [
-  {
-    title: 'Imp.',
-    value: '92',
-    fullname: 'Importance',
-  },
-  {
-    title: 'Contr.',
-    value: '36',
-    fullname: 'Contribution',
   },
 ]
 
@@ -208,60 +175,43 @@ const projectData = [
     margin-top: 1rem;
   }
 
-  .repo-list {
-    .separator {
-      height: 1px;
-      background-color: var(--color-theme);
-      margin: 1.2rem 8px 12px;
+  .separator {
+    height: 1px;
+    background-color: var(--color-theme);
+    margin: 1.2rem 8px 12px;
+  }
+
+  .comment-container {
+    position: relative;
+    padding: 16px 0px 0px;
+
+    .comment {
+      padding: 0 4px;
+      font-size: 0.9rem;
+      color: white;
+      line-height: 1.7rem;
+      letter-spacing: 0.4px;
     }
 
-    .repo {
-      width: 100%;
+    .quotation-wrapper {
+      width: 24px;
+      height: 24px;
       display: flex;
-      flex-direction: column;
-      row-gap: 12px;
+      align-items: center;
+      justify-content: center;
 
-      .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        .title {
-          color: white;
-          font-size: 1rem;
-          transition: color 0.3s ease-out;
-
-          a {
-            text-decoration: none;
-            color: white;
-          }
-
-          &:hover {
-            a {
-              text-decoration: underline;
-            }
-          }
-        }
-
-        .data-display {
-          display: flex;
-          column-gap: 20px;
-
-          .data-item {
-            .data-value {
-              font-size: 1rem;
-            }
-
-            .data-desc {
-              right: 0px;
-              top: -4px;
-            }
-          }
-        }
+      .quotation {
+        width: 12px;
+        height: 12px;
       }
 
-      .desc {
-        font-size: 0.75rem;
+      &.up {
+        transform: translate(-20%, -30%);
+      }
+
+      &.down {
+        float: right;
+        transform: translate(20%, 0) rotate(180deg);
       }
     }
   }

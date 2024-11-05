@@ -72,7 +72,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 onMounted(() => {
-  loadHistory()
+  loadHistory() // 加载localStorage历史记录
 })
 
 const router = useRouter()
@@ -87,6 +87,7 @@ const placeholder = computed(() => {
 })
 const userInput = ref('') // 用户输入内容
 
+// 搜索
 const search = () => {
   console.log(userInput.value)
   isFocus.value = false
@@ -99,11 +100,13 @@ const search = () => {
     }
   }
 }
+// 清除输入框内容
 const clearInput = () => {
   userInput.value = ''
   router.push({ path: '/' })
 }
 
+// 历史记录
 const developerHistory = ref<string[]>([])
 const domainHistory = ref<string[]>([])
 const history = computed(() => {
@@ -267,7 +270,7 @@ const inputBoxHeight = computed(() => {
 
     .form {
       flex-shrink: 0;
-      height: var(--input-height);
+      height: calc(var(--input-height) - 2px);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -319,8 +322,15 @@ const inputBoxHeight = computed(() => {
   }
 
   .search-history {
+    flex-shrink: 0;
     padding: var(--history-padding) 12px;
     user-select: none;
+    max-height: calc(
+      var(--title-height) + var(--title-margin-bottom) +
+        var(--history-item-height) * 3 + var(--history-list-gap) * 3 +
+        var(--history-padding)
+    );
+    overflow: hidden;
 
     .title {
       height: var(--title-height);

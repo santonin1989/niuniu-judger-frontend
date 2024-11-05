@@ -10,12 +10,15 @@
       </div>
       <!-- 搜索结果列表 -->
       <div class="result-container">
-        <div
-          style="width: 100%; height: 3rem; background-color: #969696"
-          v-for="i in 12"
-          :key="i"
-          class="result-item"
-        ></div>
+        <div v-for="i in 12" :key="i" class="result-item">
+          <div class="developer prop">
+            <img src="/avatar.png" />
+            <p>开发者昵称</p>
+          </div>
+          <div class="score prop">96</div>
+          <div class="nation prop">中国</div>
+          <div class="domain prop">前端</div>
+        </div>
       </div>
     </div>
     <!-- 页码导航 -->
@@ -168,6 +171,33 @@ const changePage = (page: number) => {
       .result-item {
         flex-shrink: 0;
         width: 100%;
+        height: 4rem;
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+        color: white;
+
+        .prop {
+          flex-grow: 1;
+          flex-basis: 80px;
+          text-align: center;
+        }
+
+        .developer {
+          flex-grow: 10;
+          padding-left: 12px;
+          display: flex;
+          align-items: center;
+          column-gap: 12px;
+          color: white;
+
+          img {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+        }
       }
     }
   }

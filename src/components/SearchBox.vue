@@ -12,9 +12,11 @@
           {{ tab }}
         </div>
       </div>
-      <div class="search-input">
+      <div :style="inputBoxHeight" class="search-input">
         <form class="form" @submit.prevent="search">
           <input
+            @focus="isFocus = true"
+            @blur="isFocus = false"
             v-model="userInput"
             class="input"
             type="text"
@@ -28,6 +30,21 @@
             <img @click="search" class="icon" :src="searchIcon" alt="搜索" />
           </div>
         </form>
+        <div class="search-history">
+          <div class="title">
+            <div>搜索历史</div>
+            <img @click="clearHistory" :src="deleteIcon" alt="删除" />
+          </div>
+          <div class="history-list">
+            <div
+              v-for="(item, index) in history"
+              :key="index"
+              class="history-item"
+            >
+              {{ item }}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -35,8 +52,13 @@
 
 <script setup lang="ts">
 import searchIcon from '@/components/icons/search.svg'
-import { computed, ref } from 'vue'
+import deleteIcon from '@/components/icons/delete.svg'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+
+onMounted(() => {
+  loadHistory()
+})
 
 const router = useRouter()
 const tabs = ['开发者', '领域']
@@ -52,7 +74,9 @@ const userInput = ref('') // 用户输入内容
 
 const search = () => {
   console.log(userInput.value)
+  isFocus.value = false
   if (userInput.value) {
+    addHistory(userInput.value)
     if (activeTab.value === 0) {
       router.push({ name: 'search', query: { name: userInput.value } })
     } else {
@@ -64,6 +88,70 @@ const clearInput = () => {
   userInput.value = ''
   router.push({ path: '/' })
 }
+
+const developerHistory = ref<string[]>([])
+const domainHistory = ref<string[]>([])
+const history = computed(() => {
+  if (activeTab.value === 0) {
+    return developerHistory.value
+  } else {
+    return domainHistory.value
+  }
+})
+
+// 将搜索结果存入历史记录
+const addHistory = (item: string) => {
+  if (activeTab.value === 0) {
+    developerHistory.value.unshift(item)
+    developerHistory.value.splice(30)
+  } else {
+    domainHistory.value.unshift(item)
+    domainHistory.value.splice(30)
+  }
+  saveHistory()
+}
+// 清空历史记录
+const clearHistory = () => {
+  if (activeTab.value === 0) {
+    developerHistory.value = []
+  } else {
+    domainHistory.value = []
+  }
+  clearLocalStorage()
+}
+// 持久化
+const saveHistory = () => {
+  localStorage.setItem(
+    'developerHistory',
+    JSON.stringify(developerHistory.value),
+  )
+  localStorage.setItem('domainHistory', JSON.stringify(domainHistory.value))
+}
+// 加载持久化历史记录
+const loadHistory = () => {
+  const developerHistoryStr = localStorage.getItem('developerHistory')
+  const domainHistoryStr = localStorage.getItem('domainHistory')
+  if (developerHistoryStr) {
+    developerHistory.value = JSON.parse(developerHistoryStr)
+  }
+  if (domainHistoryStr) {
+    domainHistory.value = JSON.parse(domainHistoryStr)
+  }
+}
+// 清空持久化
+const clearLocalStorage = () => {
+  localStorage.removeItem('developerHistory')
+  localStorage.removeItem('domainHistory')
+}
+
+const isFocus = ref(false)
+const inputBoxHeight = computed(() => {
+  if (isFocus.value) {
+    return 'height: var(--focus-input-height);'
+  } else {
+    return 'height: var(--input-height);'
+  }
+})
 </script>
 
 <style scoped lang="less">
@@ -72,17 +160,34 @@ const clearInput = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  --title-height: 1.2rem;
+  --title-margin-bottom: 16px;
+  --history-item-height: 1.6rem;
+  --history-list-gap: 12px;
+  --history-padding: 8px;
+  --tabs-height: 32px;
+  --tabs-margin-bottom: 8px;
+  --input-height: 48px;
+  --focus-input-height: calc(
+    var(--input-height) + var(--title-height) + var(--title-margin-bottom) +
+      var(--history-item-height) * 3 + var(--history-list-gap) * 3 +
+      var(--history-padding) * 2
+  );
 
   .container {
+    height: calc(
+      var(--tabs-height) + var(--tabs-margin-bottom) + var(--input-height)
+    );
     max-width: 600px;
     width: 100%;
+    position: relative;
   }
 
   .tabs {
     display: flex;
-    margin-bottom: 8px;
+    margin-bottom: var(--tabs-margin-bottom);
     font-size: 0.9rem;
-    height: 32px;
+    height: var(--tabs-height);
     position: relative;
     isolation: isolate;
     --active: 0;
@@ -125,22 +230,28 @@ const clearInput = () => {
   }
 
   .search-input {
+    z-index: 1;
+    position: absolute;
     width: 100%;
-    height: 48px;
+    height: var(--input-height);
     background-color: var(--color-background);
-    border-radius: 30px;
+    border-radius: calc(var(--input-height) / 2);
     border: var(--border);
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: normal;
     box-sizing: border-box;
     box-shadow: 0px 0px 16px rgba(0, 254, 235, 0.32);
+    transition: height 0.3s ease-in-out;
+    overflow: hidden;
 
     .form {
+      flex-shrink: 0;
+      height: var(--input-height);
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      height: 100%;
       padding: 0 4px 0px 12px;
       box-sizing: border-box;
     }
@@ -184,6 +295,41 @@ const clearInput = () => {
       width: 36px;
       height: 36px;
       cursor: pointer;
+    }
+  }
+
+  .search-history {
+    padding: var(--history-padding) 12px;
+    user-select: none;
+
+    .title {
+      height: var(--title-height);
+      font-size: 0.9rem;
+      margin-bottom: var(--title-margin-bottom);
+      transform: translateX(0.5rem);
+      display: flex;
+      column-gap: 16px;
+      align-items: center;
+
+      img {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+      }
+    }
+
+    .history-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--history-list-gap);
+
+      .history-item {
+        padding: 0 12px;
+        height: var(--history-item-height);
+        border-radius: 0.8rem;
+        background-color: rgba(255, 255, 255, 0.2);
+      }
     }
   }
 }

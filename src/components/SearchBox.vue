@@ -33,10 +33,25 @@
         <div class="search-history">
           <div class="title">
             <div>搜索历史</div>
-            <img @click="clearHistory" :src="deleteIcon" alt="删除" />
+            <svg
+              class="delete-icon"
+              @click="clearHistory"
+              :src="deleteIcon"
+              t="1730766752455"
+              viewBox="0 0 1024 1024"
+              width="200"
+              height="200"
+            >
+              <path
+                d="M615.258353 800.225882a34.334118 34.334118 0 0 1-34.394353-34.394353V387.192471a34.334118 34.334118 0 1 1 68.848941 0v378.639058a34.334118 34.334118 0 0 1-34.454588 34.394353z m-206.486588 0a34.334118 34.334118 0 0 1-34.454589-34.394353V387.192471a34.334118 34.334118 0 1 1 68.848942 0v378.639058a34.334118 34.334118 0 0 1-34.394353 34.394353z m550.731294-585.125647H787.290353V146.251294a103.002353 103.002353 0 0 0-102.4-103.243294H339.862588c-56.922353 0-103.243294 46.320941-103.243294 103.243294v68.848941H64.466824a34.334118 34.334118 0 1 0 0 68.848941H959.563294a34.334118 34.334118 0 1 0 0-68.848941zM305.408 146.251294c0-18.974118 15.480471-34.394353 34.454588-34.394353h344.96753c18.853647 0 33.671529 15.058824 33.671529 34.394353v68.848941H305.408V146.251294z m447.608471 860.521412h-481.882353c-56.982588 0-103.303529-46.381176-103.30353-103.30353V386.710588a34.454588 34.454588 0 0 1 68.848941 0V903.529412c0 19.034353 15.420235 34.454588 34.394353 34.454588h481.942589a34.454588 34.454588 0 0 0 34.454588-34.454588V388.096a34.394353 34.394353 0 1 1 68.848941 0v515.373176c0 56.982588-46.381176 103.303529-103.303529 103.30353z"
+                fill="#c4c4c4"
+                p-id="4505"
+              ></path>
+            </svg>
           </div>
           <div class="history-list">
             <div
+              @click="searchHistory(item)"
               v-for="(item, index) in history"
               :key="index"
               class="history-item"
@@ -99,6 +114,11 @@ const history = computed(() => {
   }
 })
 
+// 搜索指定历史记录
+const searchHistory = (item: string) => {
+  userInput.value = item
+  search()
+}
 // 将搜索结果存入历史记录
 const addHistory = (item: string) => {
   if (activeTab.value === 0) {
@@ -310,12 +330,16 @@ const inputBoxHeight = computed(() => {
       display: flex;
       column-gap: 16px;
       align-items: center;
+      color: white;
 
-      img {
-        display: inline-block;
+      .delete-icon {
         width: 16px;
         height: 16px;
         cursor: pointer;
+
+        &:hover path {
+          fill: var(--color-theme);
+        }
       }
     }
 
@@ -328,7 +352,13 @@ const inputBoxHeight = computed(() => {
         padding: 0 12px;
         height: var(--history-item-height);
         border-radius: 0.8rem;
-        background-color: rgba(255, 255, 255, 0.2);
+        background-color: rgba(0, 0, 0, 0.9);
+
+        &:hover {
+          background-color: var(--color-theme);
+          color: var(--color-background);
+          cursor: pointer;
+        }
       }
     }
   }

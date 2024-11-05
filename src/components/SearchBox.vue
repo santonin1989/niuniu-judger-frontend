@@ -51,7 +51,7 @@
           </div>
           <div class="history-list">
             <div
-              @click="searchHistory(item)"
+              @click="searchHistory(item, index)"
               v-for="(item, index) in history"
               :key="index"
               class="history-item"
@@ -89,7 +89,7 @@ const userInput = ref('') // 用户输入内容
 
 // 搜索
 const search = () => {
-  console.log(userInput.value)
+  // console.log(userInput.value)
   isFocus.value = false
   if (userInput.value) {
     addHistory(userInput.value)
@@ -118,9 +118,25 @@ const history = computed(() => {
 })
 
 // 搜索指定历史记录
-const searchHistory = (item: string) => {
+const searchHistory = (item: string, index: number) => {
   userInput.value = item
-  search()
+  // 将该历史记录提到最前面
+  if (activeTab.value === 0) {
+    developerHistory.value.splice(index, 1)
+    developerHistory.value.unshift(item)
+  } else {
+    domainHistory.value.splice(index, 1)
+    domainHistory.value.unshift(item)
+  }
+  isFocus.value = false
+  if (userInput.value) {
+    if (activeTab.value === 0) {
+      router.push({ name: 'search', query: { name: userInput.value } })
+    } else {
+      router.push({ name: 'search', query: { domain: userInput.value } })
+    }
+  }
+  saveHistory()
 }
 // 将搜索结果存入历史记录
 const addHistory = (item: string) => {

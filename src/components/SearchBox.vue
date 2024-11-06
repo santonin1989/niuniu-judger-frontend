@@ -217,7 +217,7 @@ const inputBoxHeight = computed(() => {
     height: calc(
       var(--tabs-height) + var(--tabs-margin-bottom) + var(--input-height)
     );
-    max-width: 600px;
+    max-width: 550px;
     width: 100%;
     position: relative;
   }

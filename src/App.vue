@@ -26,6 +26,7 @@ import QiniuCloud from './components/QiniuCloud.vue'
   justify-content: space-between;
   width: 100%;
   column-gap: 3%;
+  overflow: hidden;
 
   .search-container {
     height: 100%;

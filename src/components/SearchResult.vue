@@ -10,7 +10,7 @@
       </div>
       <!-- 搜索结果列表 -->
       <div class="result-container">
-        <div v-for="i in 12" :key="i" class="result-item">
+        <div @click="toDetails(i)" v-for="i in 12" :key="i" class="result-item">
           <div class="developer prop">
             <img src="/avatar.png" alt="avatar" />
             <p>开发者昵称</p>
@@ -62,6 +62,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const sumPage = ref(16) // 总页数
 const currentPage = ref(1) // 当前页数
@@ -108,19 +109,24 @@ const showSumPage = computed(() => {
     // 去重和排除无效的页码
     return page === -1 || pages.indexOf(page) === index
   })
-}) // 显示的页码
+})
 // 切换页码
 const changePage = (page: number) => {
   if (page === -1) return
   if (page < 1 || page > sumPage.value) return
   currentPage.value = page
 }
+
+const router = useRouter()
+const toDetails = (i: number) => {
+  router.push({ name: 'developer', params: { name: i } })
+}
 </script>
 
 <style scoped lang="less">
 .search-result {
   width: 100%;
-  max-width: 600px;
+  max-width: 680px;
   height: calc(100% - 88px - 1.5rem);
   --filter-height: 2.2rem;
   --content-margin-bottom: 0.5rem;
@@ -151,7 +157,7 @@ const changePage = (page: number) => {
       height: var(--filter-height);
       width: 100%;
       display: flex;
-      color: white;
+      color: var(--color-theme);
 
       .filter-item {
         flex-grow: 1;
@@ -183,6 +189,13 @@ const changePage = (page: number) => {
         align-items: center;
         font-size: 1rem;
         color: white;
+        border-radius: 8px;
+        transition: background-color 0.2s ease-in-out;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.32);
+          cursor: pointer;
+        }
 
         .prop {
           flex-grow: 1;

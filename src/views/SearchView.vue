@@ -1,6 +1,10 @@
 <template>
   <SearchBox />
-  <RouterView />
+  <RouterView v-slot="{ Component }">
+    <Transition name="fade">
+      <component :is="Component" />
+    </Transition>
+  </RouterView>
 </template>
 
 <script setup lang="ts">

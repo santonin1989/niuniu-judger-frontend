@@ -9,17 +9,24 @@
         <div class="filter-item domain">领域</div>
       </div>
       <!-- 搜索结果列表 -->
-      <div class="result-container">
-        <div @click="toDetails(i)" v-for="i in 12" :key="i" class="result-item">
-          <div class="developer prop">
-            <img src="/avatar.png" alt="avatar" />
-            <p>开发者昵称</p>
+      <PerfectScrollbar>
+        <div class="result-container">
+          <div
+            @click="toDetails(i)"
+            v-for="i in 12"
+            :key="i"
+            class="result-item"
+          >
+            <div class="developer prop">
+              <img src="/avatar.png" alt="avatar" />
+              <p>开发者昵称</p>
+            </div>
+            <div class="score prop">96</div>
+            <div class="nation prop">中国</div>
+            <div class="domain prop">前端</div>
           </div>
-          <div class="score prop">96</div>
-          <div class="nation prop">中国</div>
-          <div class="domain prop">前端</div>
         </div>
-      </div>
+      </PerfectScrollbar>
     </div>
     <!-- 页码导航 -->
     <div class="page-nav">
@@ -133,6 +140,10 @@ const toDetails = (i: number) => {
   --page-nav-height: 3rem;
   user-select: none;
 
+  .ps {
+    height: calc(100% - var(--filter-height));
+  }
+
   .search-result-content,
   .page-nav {
     background-color: rgba(0, 0, 0, 0.8);
@@ -172,14 +183,13 @@ const toDetails = (i: number) => {
 
     .result-container {
       height: calc(100% - 2rem);
-      overflow-y: auto;
       display: flex;
       flex-direction: column;
       row-gap: 12px;
       padding-bottom: 8px;
-      overflow-y: auto;
+      /*overflow-y: auto;
       scrollbar-width: none;
-      -ms-overflow-style: none;
+      -ms-overflow-style: none;*/
 
       .result-item {
         flex-shrink: 0;

@@ -46,3 +46,7 @@
 .fade-leave-to {
   transform: translateY(100%) scale(0.5);
 }
+
+.ps .ps__rail-y {
+  background-color: transparent !important;
+}

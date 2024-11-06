@@ -29,13 +29,13 @@
       <!-- 开发者评价 -->
       <div class="comment-container">
         <div class="quotation-wrapper up">
-          <img class="quotation" :src="quotation" />
+          <img class="quotation" :src="quotation" alt="quotation" />
         </div>
         <div class="comment" ref="commentElement">
           我是对开发者的评价啊啊啊啊啊我是对开发者的评价啊啊啊啊啊我是对开发者的评价啊啊啊啊啊我是对开发者的评价啊啊啊啊啊
         </div>
         <div class="quotation-wrapper down">
-          <img class="quotation" :src="quotation" />
+          <img class="quotation" :src="quotation" alt="quotation" />
         </div>
       </div>
     </template>
@@ -112,6 +112,7 @@ const projectData = [
   transition: none;
   width: 100%;
   background-color: var(--color-background-half);
+  -webkit-backdrop-filter: var(--blur);
   backdrop-filter: var(--blur);
   border-radius: var(--card-border-radius);
   border: var(--border);
@@ -251,6 +252,7 @@ const projectData = [
     border-radius: 0.5rem;
     padding: 0.8rem;
     white-space: nowrap;
+    -webkit-backdrop-filter: var(--blur);
     backdrop-filter: var(--blur);
     top: -4px;
     transform: translateY(-100%);

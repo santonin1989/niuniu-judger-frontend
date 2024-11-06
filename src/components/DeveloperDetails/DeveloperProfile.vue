@@ -101,6 +101,7 @@ const personalData = [
     user-select: none;
 
     .data-title {
+      white-space: nowrap;
       font-size: 0.9rem;
       font-weight: lighter;
     }
@@ -116,6 +117,7 @@ const personalData = [
       border-radius: 0.5rem;
       padding: 0.8rem;
       white-space: nowrap;
+      -webkit-backdrop-filter: var(--blur);
       backdrop-filter: var(--blur);
       top: -4px;
       transform: translateY(-100%);

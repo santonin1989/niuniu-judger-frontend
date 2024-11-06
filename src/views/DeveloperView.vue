@@ -1,9 +1,14 @@
 <template>
   <div class="developer-view">
     <div class="developer-view-container">
+      <!-- 返回按钮 -->
       <div class="btn-group">
-        <img :src="backIcon" @click="navigateBack" />
-        <img :src="homeIcon" @click="navigateHome" />
+        <div class="btn">
+          <img :src="backIcon" @click="navigateBack" alt="back" />
+        </div>
+        <div class="btn">
+          <img :src="homeIcon" @click="navigateHome" alt="home" />
+        </div>
       </div>
       <!-- 开发者档案 -->
       <DeveloperProfile class="developer-details" />
@@ -43,22 +48,33 @@ const navigateHome = () => {
   padding: 24px 12px;
 
   .developer-view-container {
+    position: relative;
     padding: 1rem 1.6rem;
     height: 100%;
     width: 100%;
     border: var(--border);
     border-radius: var(--card-border-radius);
     background-color: var(--color-background-half);
+    -webkit-backdrop-filter: var(--blur);
     backdrop-filter: var(--blur);
-    overflow-y: auto;
+    overflow-y: scroll;
     scrollbar-width: none;
   }
 }
 
 .btn-group {
+  position: sticky;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   column-gap: 1rem;
+
+  .btn {
+    padding: 8px;
+    border-radius: 50%;
+    background-color: rgba(21, 18, 25, 0.72);
+  }
 
   img {
     height: 28px;
@@ -68,7 +84,7 @@ const navigateHome = () => {
 }
 
 .developer-details {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .separator {

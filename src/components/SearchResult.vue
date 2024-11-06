@@ -12,7 +12,7 @@
       <div class="result-container">
         <div v-for="i in 12" :key="i" class="result-item">
           <div class="developer prop">
-            <img src="/avatar.png" />
+            <img src="/avatar.png" alt="avatar" />
             <p>开发者昵称</p>
           </div>
           <div class="score prop">96</div>
@@ -25,10 +25,13 @@
     <div class="page-nav">
       <div class="page-nav-item">
         <div @click="changePage(1)" class="icon reverse">
-          <img src="@/components/icons/right-double-arrow.svg" />
+          <img
+            src="@/components/icons/right-double-arrow.svg"
+            alt="left-double-arrow"
+          />
         </div>
         <div @click="changePage(currentPage - 1)" class="icon reverse">
-          <img src="@/components/icons/right-arrow.svg" />
+          <img src="@/components/icons/right-arrow.svg" alt="left-arrow" />
         </div>
       </div>
       <div class="page-nav-item">
@@ -44,10 +47,13 @@
       </div>
       <div class="page-nav-item">
         <div @click="changePage(currentPage + 1)" class="icon">
-          <img src="@/components/icons/right-arrow.svg" />
+          <img src="@/components/icons/right-arrow.svg" alt="right-arrow" />
         </div>
         <div @click="changePage(sumPage)" class="icon">
-          <img src="@/components/icons/right-double-arrow.svg" />
+          <img
+            src="@/components/icons/right-double-arrow.svg"
+            alt="right-double-arrow"
+          />
         </div>
       </div>
     </div>
@@ -124,6 +130,7 @@ const changePage = (page: number) => {
   .search-result-content,
   .page-nav {
     background-color: rgba(0, 0, 0, 0.8);
+    -webkit-backdrop-filter: var(--blur);
     backdrop-filter: var(--blur);
     border-radius: var(--card-border-radius);
   }

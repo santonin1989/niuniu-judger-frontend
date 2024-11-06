@@ -1,5 +1,5 @@
 <template>
-  <div class="developer-profile">
+  <div v-if="info" class="developer-profile">
     <div class="info">
       <div
         @mouseenter="handleMouseEnter"
@@ -7,8 +7,8 @@
         @click="toGitHub"
         class="avatar-name"
       >
-        <img :src="avatar" alt="avatar" />
-        <div class="name">Xiao Shuai</div>
+        <img :src="info.avatarUrl ?? avatar" alt="avatar" />
+        <div class="name">{{ info.username }}</div>
         <div
           :style="`transform: translate(${tipsPosition.x + 10}px, ${tipsPosition.y - 20}px);`"
           class="tips"
@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="self-intro">
-        我是个人介绍我是个人介绍我是个人介绍我是个人介绍我是个人介绍我是个人介绍
+        {{ info.bio }}
       </div>
     </div>
     <div class="personal-data-display">
@@ -28,39 +28,82 @@
       </div>
     </div>
   </div>
+  <div v-else class="no-comment">
+    <p>牛牛正在努力分析中……</p>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import avatar from '/avatar.png'
 import { formatBigNumber } from '@/utils/formatNumber'
+import type { DeveloperDTO } from '@/types/DTO'
 
-const personalData = [
-  {
-    title: 'Nation',
-    value: 'China',
-  },
-  {
-    title: 'Talent Rank',
-    value: 'A',
-  },
-  {
-    title: 'Followers',
-    value: formatBigNumber(12000),
-  },
-  {
-    title: 'Star',
-    value: formatBigNumber(2400),
-  },
-  {
-    title: 'Repo.',
-    value: formatBigNumber(36),
-    fullname: 'Repository',
-  },
-]
+const props = defineProps<{
+  info: DeveloperDTO
+}>()
+
+// const personalData = ref([
+//   {
+//     title: 'Nation',
+//     value: 'China',
+//   },
+//   {
+//     title: 'Talent Rank',
+//     value: 'A',
+//   },
+//   {
+//     title: 'Followers',
+//     value: formatBigNumber(12000),
+//   },
+//   {
+//     title: 'Star',
+//     value: formatBigNumber(2400),
+//   },
+//   {
+//     title: 'Repo.',
+//     value: formatBigNumber(36),
+//     fullname: 'Repository',
+//   },
+// ])
+
+const personalData = computed(() => {
+  const data = props.info
+  return [
+    {
+      title: 'Nation',
+      value: data.nation,
+      fullname: undefined,
+    },
+    {
+      title: 'Talent Rank',
+      value: data.talentRank.toFixed(2),
+    },
+    {
+      title: 'Domain',
+      value:
+        data.domain === '' || data.domain === null
+          ? 'N/A'
+          : longToShort(data.domain),
+      fullname: data.domain,
+    },
+    {
+      title: 'Followers',
+      value: formatBigNumber(data.followersCount),
+    },
+    {
+      title: 'Location',
+      value: data.location === '' ? 'N/A' : data.location,
+    },
+    {
+      title: 'Repository',
+      value: formatBigNumber(data.publicRepos),
+    },
+  ]
+})
 
 const toGitHub = () => {
-  window.open('https://github.com')
+  window.open(props.info.profileUrl as string)
 }
 
 const tipsPosition = ref({ x: 0, y: 0 })
@@ -72,9 +115,26 @@ const handleMouseMove = (event: MouseEvent) => {
   const { layerX, layerY } = event
   tipsPosition.value = { x: layerX, y: layerY }
 }
+
+const longToShort = (str: string) => {
+  if (str.length > 10) {
+    return str.slice(0, 10) + '...'
+  }
+  return str
+}
 </script>
 
 <style scoped lang="less">
+.no-comment {
+  padding: 1rem 0;
+  text-align: center;
+
+  p {
+    font-size: 1.2rem;
+    color: var(--color-theme);
+  }
+}
+
 .developer-profile {
   width: 100%;
 
@@ -134,19 +194,22 @@ const handleMouseMove = (event: MouseEvent) => {
     }
 
     .self-intro {
-      width: 72%;
-      max-width: 460px;
+      display: flex;
+      max-width: 72%;
     }
   }
 }
 
 .personal-data-display {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   margin-top: 2rem;
+  row-gap: 1rem;
 
   .data-item {
-    flex-basis: 15%;
+    flex-basis: 30%;
+    min-width: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -161,11 +224,13 @@ const handleMouseMove = (event: MouseEvent) => {
     }
 
     .data-value {
+      white-space: nowrap;
       font-size: 1.3rem;
       color: var(--color-theme);
     }
 
     .data-desc {
+      max-width: 5rem;
       position: absolute;
       background-color: var(--color-background-half);
       border-radius: 0.5rem;

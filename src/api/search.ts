@@ -8,7 +8,9 @@ export class Search {
    * @returns 开发者列表
    */
   static async searchDeveloper(name: string) {
-    return request.get<DeveloperDTO[]>(`/searchByName`, { params: { name } })
+    return request.get<DeveloperDTO[]>(`/searchByName`, {
+      params: { name },
+    })
   }
 
   /**

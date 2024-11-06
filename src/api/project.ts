@@ -7,8 +7,8 @@ export class Project {
    * @param ID GitHub ID
    * @returns 项目列表
    */
-  static async getProjectList(ID: string) {
-    return request.get<ProjectType[]>(`/${ID}/projects`)
+  static async getProjectList(username: string) {
+    return request.get<ProjectType[]>(`/${username}/projects`)
   }
 
   /**

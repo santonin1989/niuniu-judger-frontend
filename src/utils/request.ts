@@ -6,14 +6,15 @@ import type {
 } from 'axios'
 
 const request = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  timeout: 5000,
+  baseURL: '/api/developers',
+  timeout: 60000,
 })
 
 // 请求拦截器
 request.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // config.headers.set('Content-Type', 'application/json') // 正确设置请求头
+    console.log('请求', config)
     return config
   },
   error => {

@@ -5,7 +5,7 @@
 export const formatBigNumber = (num: number) => {
   if (num < 1000) return num.toString()
   else if (num < 10000) return Math.floor(num / 1000) + ',' + (num % 1000)
-  else return num / 1000 + 'k'
+  else return (num / 1000).toFixed(1) + 'k'
 }
 
 /**

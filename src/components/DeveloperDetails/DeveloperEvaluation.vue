@@ -1,25 +1,43 @@
 <template>
-  <div class="developer-evaluation">
+  <div v-if="info" class="developer-evaluation">
     <!-- 开发者评价 -->
     <div class="comment-container">
       <div class="quotation-wrapper up">
         <img class="quotation" :src="quotation" alt="quotation" />
       </div>
       <div class="comment" ref="commentElement">
-        我是对开发者的评价啊啊啊啊啊我是对开发者的评价啊啊啊啊啊我是对开发者的评价啊啊啊啊啊我是对开发者的评价啊啊啊啊啊
+        {{ info.comment }}
       </div>
       <div class="quotation-wrapper down">
         <img class="quotation" :src="quotation" alt="quotation" />
       </div>
     </div>
   </div>
+  <div v-else class="no-comment">
+    <p>牛牛正在努力分析中……</p>
+  </div>
 </template>
 
 <script setup lang="ts">
 import quotation from '@/components/icons/quotation.svg'
+import type { DeveloperDTO } from '@/types/DTO'
+
+defineProps<{
+  info: DeveloperDTO
+}>()
 </script>
 
 <style scoped lang="less">
+.no-comment {
+  padding: 1rem 0;
+  text-align: center;
+
+  p {
+    font-size: 1.2rem;
+    color: var(--color-theme);
+  }
+}
+
 .developer-evaluation {
   width: 100%;
   display: flex;
@@ -28,8 +46,7 @@ import quotation from '@/components/icons/quotation.svg'
 }
 .comment-container {
   position: relative;
-  width: 72%;
-  min-width: 108px;
+  max-width: 72%;
   padding: 16px 0px 0px;
 
   .comment {

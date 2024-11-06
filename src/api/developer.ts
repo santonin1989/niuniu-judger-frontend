@@ -8,7 +8,7 @@ export class Developer {
    * @returns 开发者详细信息
    */
   static async getDeveloperInfoByName(name: string) {
-    return request.get<DeveloperDTO>(`/username/${name}`)
+    return request.get<DeveloperDTO>(`/evaluate/${name}`)
   }
 
   /**

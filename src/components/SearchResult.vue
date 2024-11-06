@@ -8,18 +8,19 @@
         <div class="filter-item nation">国家</div>
         <div class="filter-item domain">领域</div>
       </div>
+      <NiuniuLoading v-if="list.length === 0" />
       <!-- 搜索结果列表 -->
-      <PerfectScrollbar>
+      <PerfectScrollbar v-else>
         <div class="result-container">
           <div
-            @click="toDetails(i)"
-            v-for="i in 12"
-            :key="i"
+            @click="toDetails(item.username)"
+            v-for="(item, index) in list"
+            :key="index"
             class="result-item"
           >
             <div class="developer prop">
-              <img src="/avatar.png" alt="avatar" />
-              <p>开发者昵称</p>
+              <img :src="item.avatarUrl as string" alt="avatar" />
+              <p>{{ item.username }}</p>
             </div>
             <div class="score prop">96</div>
             <div class="nation prop">中国</div>
@@ -68,8 +69,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import NiuniuLoading from './NiuniuLoading.vue'
+import { Search } from '@/api/search'
+import type { DeveloperDTO } from '@/types/DTO'
+
+const list = ref<DeveloperDTO[]>([])
+
+const route = useRoute()
+const name = route.query.name as string
+
+onMounted(() => {
+  Search.searchDeveloper(name).then(res => {
+    console.log(res)
+    list.value = res as unknown as DeveloperDTO[]
+  })
+})
 
 const sumPage = ref(16) // 总页数
 const currentPage = ref(1) // 当前页数
@@ -125,7 +141,7 @@ const changePage = (page: number) => {
 }
 
 const router = useRouter()
-const toDetails = (i: number) => {
+const toDetails = (i: string) => {
   router.push({ name: 'developer', params: { name: i } })
 }
 </script>

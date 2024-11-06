@@ -4,10 +4,10 @@
       v-for="i in nius"
       :key="i"
       :class="'niu niu-' + i"
-      src="/一头牛.svg"
-      alt="一头牛"
+      src="/one-bull.svg"
+      alt="one-bull"
     />
-    <img class="cloud" src="/一朵云.png" alt="一朵云" />
+    <img class="cloud" src="/one-cloud.png" alt="one-cloud" />
   </div>
 </template>
 

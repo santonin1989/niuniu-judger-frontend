@@ -4,7 +4,7 @@
     <div class="card-title">{{ cardTitle }}</div>
     <template v-if="cardType === 'developer'">
       <!-- 个人信息 -->
-      <div class="personal-info">
+      <div @click="toDetails" class="personal-info">
         <img class="avatar" src="/avatar.png" alt="头像" />
         <div class="name-desc">
           <div class="name">
@@ -62,6 +62,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import quotation from '@/components/icons/quotation.svg'
+import { formatBigNumber } from '@/utils/formatNumber'
+import { useRouter } from 'vue-router'
 
 const cardType = ref('developer')
 // const props = defineProps<{
@@ -76,16 +78,16 @@ const cardTitle = computed(() => {
 const personalData = [
   {
     title: 'T.R.',
-    value: '92',
+    value: 'A',
     fullname: 'Talent Rank',
   },
   {
     title: 'Star',
-    value: '2.4K',
+    value: formatBigNumber(2400),
   },
   {
     title: 'Repo.',
-    value: '36',
+    value: formatBigNumber(36),
     fullname: 'Repository',
   },
 ]
@@ -105,6 +107,16 @@ const projectData = [
     value: '36',
   },
 ]
+
+const router = useRouter()
+const toDetails = () => {
+  router.push({
+    name: 'developer',
+    params: {
+      name: '小帅',
+    },
+  })
+}
 </script>
 
 <style scoped lang="less">
@@ -127,12 +139,32 @@ const projectData = [
   }
 
   .personal-info {
+    position: relative;
+    cursor: pointer;
     width: 100%;
     display: flex;
     align-items: center;
     column-gap: var(--column-gap);
     --avatar-size: 4rem;
     --column-gap: 1rem;
+
+    &:hover {
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    &::after {
+      position: absolute;
+      z-index: -1;
+      content: '';
+      inset: -8px;
+      display: block;
+      background-color: rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      transition: opacity 0.3s ease-in-out;
+      opacity: 0;
+    }
 
     .avatar {
       width: var(--avatar-size);

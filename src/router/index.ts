@@ -23,12 +23,9 @@ const router = createRouter({
       ],
     },
     {
-      path: '/developer',
+      path: '/developer/:name',
       name: 'developer',
       component: DeveloperView,
-      props: route => ({
-        name: route.query.name,
-      }),
     },
     {
       path: '/:pathMatch(.*)*', // 捕获所有未匹配的路径

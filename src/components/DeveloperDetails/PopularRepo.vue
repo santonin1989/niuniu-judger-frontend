@@ -4,7 +4,9 @@
     <div class="repo-container">
       <div class="repo-list">
         <div v-for="i in 10" :key="i" class="repo-item">
-          <div class="repo-name">I-am-a--famous-repo</div>
+          <div class="repo-name">
+            <a href="#" target="_blank">I-am-a--famous-repo</a>
+          </div>
           <div class="repo-data">
             <div class="data-item">
               <p>&lt;重要程度 /&gt;</p>
@@ -40,7 +42,9 @@
       </div>
       <div class="repo-list">
         <div v-for="i in 10" :key="i" class="repo-item">
-          <div class="repo-name">I-am-a--famous-repo</div>
+          <div class="repo-name">
+            <a href="#" target="_blank">I-am-a--famous-repo</a>
+          </div>
           <div class="repo-data">
             <div class="data-item">
               <p>&lt;重要程度 /&gt;</p>
@@ -104,8 +108,12 @@
 
     .repo-item {
       .repo-name {
-        color: white;
         font-size: 1.2rem;
+
+        a {
+          color: white;
+          text-decoration: none;
+        }
       }
 
       .repo-data {

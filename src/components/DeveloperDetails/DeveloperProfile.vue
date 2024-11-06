@@ -1,9 +1,20 @@
 <template>
   <div class="developer-profile">
     <div class="info">
-      <div class="avatar-name">
+      <div
+        @mouseenter="handleMouseEnter"
+        @mousemove="handleMouseMove"
+        @click="toGitHub"
+        class="avatar-name"
+      >
         <img :src="avatar" alt="avatar" />
         <div class="name">Xiao Shuai</div>
+        <div
+          :style="`transform: translate(${tipsPosition.x + 10}px, ${tipsPosition.y - 20}px);`"
+          class="tips"
+        >
+          前往GitHub主页
+        </div>
       </div>
       <div class="self-intro">
         我是个人介绍我是个人介绍我是个人介绍我是个人介绍我是个人介绍我是个人介绍
@@ -20,7 +31,9 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import avatar from '/avatar.png'
+import { formatBigNumber } from '@/utils/formatNumber'
 
 const personalData = [
   {
@@ -29,22 +42,36 @@ const personalData = [
   },
   {
     title: 'Talent Rank',
-    value: '92',
+    value: 'A',
   },
   {
     title: 'Followers',
-    value: '12K',
+    value: formatBigNumber(12000),
   },
   {
     title: 'Star',
-    value: '2.4K',
+    value: formatBigNumber(2400),
   },
   {
     title: 'Repo.',
-    value: '36',
+    value: formatBigNumber(36),
     fullname: 'Repository',
   },
 ]
+
+const toGitHub = () => {
+  window.open('https://github.com')
+}
+
+const tipsPosition = ref({ x: 0, y: 0 })
+const handleMouseEnter = (event: MouseEvent) => {
+  const { layerX, layerY } = event
+  tipsPosition.value = { x: layerX, y: layerY }
+}
+const handleMouseMove = (event: MouseEvent) => {
+  const { layerX, layerY } = event
+  tipsPosition.value = { x: layerX, y: layerY }
+}
 </script>
 
 <style scoped lang="less">
@@ -59,12 +86,15 @@ const personalData = [
     justify-content: center;
 
     .avatar-name {
+      position: relative;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       row-gap: 4px;
       align-items: center;
       justify-content: center;
       column-gap: 1rem;
+      user-select: none;
 
       .name {
         font-size: 1.8rem;
@@ -76,6 +106,30 @@ const personalData = [
         height: 8rem;
         border-radius: 50%;
         object-fit: cover;
+      }
+
+      .tips {
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: var(--color-theme);
+        color: var(--color-background);
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 1rem;
+        height: 2rem;
+        border-radius: 0.5rem;
+        opacity: 0;
+        transition:
+          transform 100ms,
+          opacity 200ms;
+      }
+
+      &:hover .tips {
+        opacity: 1;
       }
     }
 

@@ -10,7 +10,7 @@
           <div class="repo-data">
             <div class="data-item">
               <p>&lt;重要程度 /&gt;</p>
-              <p class="value">96%</p>
+              <p class="value">{{ item.projectImportance?.toFixed(2) }}</p>
             </div>
           </div>
           <div class="repo-desc">
@@ -59,7 +59,7 @@
           <div class="repo-data">
             <div class="data-item">
               <p>&lt;重要程度 /&gt;</p>
-              <p class="value">96%</p>
+              <p class="value">{{ item.projectImportance?.toFixed(2) }}</p>
             </div>
           </div>
           <div class="repo-desc">
@@ -121,7 +121,7 @@ const props = defineProps<{
 onMounted(() => {
   Project.getProjectList(props.username)
     .then(res => {
-      console.log(res)
+      // console.log(res)
       repoList.value = res as unknown as ProjectType[]
     })
     .catch(err => {
@@ -154,11 +154,14 @@ const list02 = computed(() => {
 }
 
 .repo-container {
+  width: 100%;
   display: flex;
-  column-gap: 6%;
+  column-gap: 20px;
 
   .repo-list {
+    flex: 0;
     flex-basis: 50%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     row-gap: 4rem;
@@ -170,6 +173,10 @@ const list02 = computed(() => {
         a {
           color: white;
           text-decoration: none;
+        }
+
+        &:hover a {
+          color: var(--color-theme);
         }
       }
 

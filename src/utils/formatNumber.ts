@@ -17,8 +17,7 @@ export const formatBigNumber = (num: number) => {
  * @returns 百分比字符串
  */
 export const factToPercent = (num: number) => {
-  if (num <= 1) return (num * 100).toString().slice(0, 4) + '%'
-  else return num
+  return (num * 100).toString().slice(0, 4) + '%'
 }
 
 /**

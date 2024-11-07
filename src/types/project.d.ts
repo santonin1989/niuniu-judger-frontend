@@ -8,4 +8,5 @@ export interface ProjectType {
   watchers: number
   htmlUrl: string
   language: string
+  projectImportance?: number
 }

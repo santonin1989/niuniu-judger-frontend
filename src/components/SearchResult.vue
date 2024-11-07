@@ -4,9 +4,13 @@
       <!-- 搜索结果过滤器 -->
       <div class="filter-container">
         <div class="filter-item developer">开发者</div>
-        <div class="filter-item username">username</div>
-        <div class="filter-item talentrank">TalentRank</div>
-        <div @click="isSearchNation = true" class="filter-item nation">
+        <div v-if="domain" class="filter-item username">username</div>
+        <div v-if="domain" class="filter-item talentrank">TalentRank</div>
+        <div
+          v-if="domain"
+          @click="isSearchNation = true"
+          class="filter-item nation"
+        >
           <div
             style="
               cursor: pointer;
@@ -41,11 +45,13 @@
           >
             <div class="developer prop">
               <img :src="item.avatarUrl as string" alt="avatar" />
-              <p>{{ item.name }}</p>
+              <p>{{ name ? item.username : item.name }}</p>
             </div>
-            <div class="score prop">{{ item.username }}</div>
-            <div class="score prop">{{ item.username }}</div>
-            <div class="score prop">{{ item.username }}</div>
+            <div v-if="domain" class="score prop">{{ item.username }}</div>
+            <div v-if="domain" class="score prop">
+              {{ item.talentRank.toFixed(2) }}
+            </div>
+            <div v-if="domain" class="score prop">{{ item.nation }}</div>
           </div>
         </div>
       </PerfectScrollbar>
@@ -104,6 +110,16 @@ import SearchNation from './SearchNation.vue'
 
 const list = ref<DeveloperDTO[]>([])
 
+const filterList = computed(() => {
+  const result = list.value.filter(item => {
+    if (nation.value && item.nation !== nation.value) {
+      return false
+    }
+    return true
+  })
+  return result
+})
+
 const route = useRoute()
 const name = computed(() => route.query.name as string)
 const domain = computed(() => route.query.domain as string)
@@ -122,15 +138,23 @@ const handleSearchNation = (res: string) => {
 // 获取搜索结果列表
 const fetchResult = () => {
   if (name.value) {
-    Search.searchDeveloper(name.value).then(res => {
-      console.log(res)
-      list.value = res as unknown as DeveloperDTO[]
-    })
+    Search.searchDeveloper(name.value)
+      .then(res => {
+        // console.log(res)
+        list.value = res as unknown as DeveloperDTO[]
+      })
+      .catch(err => {
+        console.log(err)
+      })
   } else if (domain.value) {
-    Search.searchDomain(domain.value).then(res => {
-      // console.log(res)
-      list.value = res as unknown as DeveloperDTO[]
-    })
+    Search.searchDomain(domain.value)
+      .then(res => {
+        // console.log(res)
+        list.value = res as unknown as DeveloperDTO[]
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 }
 
@@ -145,7 +169,7 @@ watch(
 
 // 当前页的结果列表
 const showResultList = computed(() => {
-  return list.value.slice(
+  return filterList.value.slice(
     (currentPage.value - 1) * maxPageToShow,
     currentPage.value * maxPageToShow,
   )

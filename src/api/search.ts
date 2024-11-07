@@ -19,8 +19,8 @@ export class Search {
    * @returns 开发者列表
    */
   static async searchDomain(keyword: string) {
-    return request.get<DeveloperDTO[]>(`/search`, {
-      params: { domain: keyword },
+    return request.get<DeveloperDTO[]>(`/searchbykeyword`, {
+      params: { keyword: keyword },
     })
   }
 }

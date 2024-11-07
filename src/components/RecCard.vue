@@ -82,7 +82,7 @@ const personalData = [
     fullname: 'Talent Rank',
   },
   {
-    title: 'Star',
+    title: 'Follower',
     value: formatBigNumber(2400),
   },
   {

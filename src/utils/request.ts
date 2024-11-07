@@ -14,7 +14,7 @@ const request = axios.create({
 request.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // config.headers.set('Content-Type', 'application/json') // 正确设置请求头
-    console.log('请求', config)
+    // console.log('请求', config)
     return config
   },
   error => {

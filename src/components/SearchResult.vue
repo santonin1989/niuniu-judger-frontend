@@ -8,7 +8,9 @@
         <div class="filter-item nation">国家</div>
         <div class="filter-item domain">领域</div>
       </div>
-      <NiuniuLoading v-if="list.length === 0" />
+      <div class="loading-wrapper" v-if="list.length === 0">
+        <NiuniuLoading />
+      </div>
       <!-- 搜索结果列表 -->
       <PerfectScrollbar v-else>
         <div class="result-container">
@@ -82,7 +84,7 @@ const name = route.query.name as string
 
 onMounted(() => {
   Search.searchDeveloper(name).then(res => {
-    console.log(res)
+    // console.log(res)
     list.value = res as unknown as DeveloperDTO[]
   })
 })
@@ -147,6 +149,11 @@ const toDetails = (i: string) => {
 </script>
 
 <style scoped lang="less">
+.loading-wrapper {
+  width: 100%;
+  padding-top: 120px;
+}
+
 .search-result {
   width: 100%;
   max-width: 680px;

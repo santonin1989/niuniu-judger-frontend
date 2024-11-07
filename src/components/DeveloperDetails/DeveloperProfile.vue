@@ -29,7 +29,7 @@
     </div>
   </div>
   <div v-else class="no-comment">
-    <p>牛牛正在努力分析中……</p>
+    <NiuniuLoading />
   </div>
 </template>
 
@@ -38,6 +38,7 @@ import { computed, ref } from 'vue'
 import avatar from '/avatar.png'
 import { formatBigNumber } from '@/utils/formatNumber'
 import type { DeveloperDTO } from '@/types/DTO'
+import NiuniuLoading from '../NiuniuLoading.vue'
 
 const props = defineProps<{
   info: DeveloperDTO
@@ -125,16 +126,6 @@ const longToShort = (str: string) => {
 </script>
 
 <style scoped lang="less">
-.no-comment {
-  padding: 1rem 0;
-  text-align: center;
-
-  p {
-    font-size: 1.2rem;
-    color: var(--color-theme);
-  }
-}
-
 .developer-profile {
   width: 100%;
 

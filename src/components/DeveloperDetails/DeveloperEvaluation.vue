@@ -14,13 +14,14 @@
     </div>
   </div>
   <div v-else class="no-comment">
-    <p>牛牛正在努力分析中……</p>
+    <NiuniuLoading />
   </div>
 </template>
 
 <script setup lang="ts">
 import quotation from '@/components/icons/quotation.svg'
 import type { DeveloperDTO } from '@/types/DTO'
+import NiuniuLoading from '../NiuniuLoading.vue'
 
 defineProps<{
   info: DeveloperDTO
@@ -28,16 +29,6 @@ defineProps<{
 </script>
 
 <style scoped lang="less">
-.no-comment {
-  padding: 1rem 0;
-  text-align: center;
-
-  p {
-    font-size: 1.2rem;
-    color: var(--color-theme);
-  }
-}
-
 .developer-evaluation {
   width: 100%;
   display: flex;

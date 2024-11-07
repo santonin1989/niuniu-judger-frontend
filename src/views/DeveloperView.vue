@@ -55,8 +55,7 @@ const info = ref<DeveloperDTO>()
 onMounted(() => {
   Developer.getDeveloperInfoByName(name)
     .then(res => {
-      console.log(name)
-      console.log(res)
+      // console.log(res)
       info.value = res as unknown as DeveloperDTO
     })
     .catch(err => {

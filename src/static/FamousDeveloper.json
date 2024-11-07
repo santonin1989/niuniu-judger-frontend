@@ -1,0 +1,28 @@
+[
+  {
+    "id": null,
+    "githubId": "13234",
+    "username": "string",
+    "avatarUrl": "1234",
+    "bio": "123",
+    "company": "123",
+    "location": "112341",
+    "email": "",
+    "publicRepos": 123,
+    "name": "",
+    "profileUrl": "",
+    "blog": "",
+    "talentRank": "",
+    "nation": "",
+    "nationConfidence": 123,
+    "domain": "12",
+    "domainConfidence": 123,
+    "followerScore": 123,
+    "followersCount": 123,
+    "followingCount": 123,
+    "pageRankScore": 123,
+    "contributionValue": 123,
+    "htmlUrl": "",
+    "comment": ""
+  }
+]

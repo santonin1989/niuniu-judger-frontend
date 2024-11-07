@@ -4,9 +4,28 @@
       <!-- 搜索结果过滤器 -->
       <div class="filter-container">
         <div class="filter-item developer">开发者</div>
-        <div class="filter-item talentrank">得分</div>
-        <div class="filter-item nation">国家</div>
-        <div class="filter-item domain">领域</div>
+        <div class="filter-item username">username</div>
+        <div class="filter-item talentrank">TalentRank</div>
+        <div @click="isSearchNation = true" class="filter-item nation">
+          <div
+            style="
+              cursor: pointer;
+              display: flex;
+              flex-direction: row;
+              column-gap: 2px;
+              align-items: center;
+            "
+          >
+            <p>{{ nation ? nation : '国家' }}</p>
+            <svg viewBox="0 0 1024 1024" width="20" height="20">
+              <path
+                d="M576.111 927.64c-4.956 0-9.922-1.15-14.485-3.467l-128.026-65a32 32 0 0 1-17.513-28.533V497.683L165.184 246.779a32 32 0 0 1 22.627-54.627h640.857a32 32 0 0 1 22.627 54.627L608.112 489.963V895.64a31.997 31.997 0 0 1-32.001 32z m-96.024-116.642l64.025 32.507V476.708a31.996 31.996 0 0 1 9.373-22.627l197.928-197.929H265.066L470.714 461.8a32.001 32.001 0 0 1 9.373 22.627v326.571z"
+                fill="#ffffff"
+                p-id="5404"
+              ></path>
+            </svg>
+          </div>
+        </div>
       </div>
       <div class="loading-wrapper" v-if="list.length === 0">
         <NiuniuLoading />
@@ -16,17 +35,17 @@
         <div class="result-container">
           <div
             @click="toDetails(item.username)"
-            v-for="(item, index) in list"
+            v-for="(item, index) in showResultList"
             :key="index"
             class="result-item"
           >
             <div class="developer prop">
               <img :src="item.avatarUrl as string" alt="avatar" />
-              <p>{{ item.username }}</p>
+              <p>{{ item.name }}</p>
             </div>
-            <div class="score prop">96</div>
-            <div class="nation prop">中国</div>
-            <div class="domain prop">前端</div>
+            <div class="score prop">{{ item.username }}</div>
+            <div class="score prop">{{ item.username }}</div>
+            <div class="score prop">{{ item.username }}</div>
           </div>
         </div>
       </PerfectScrollbar>
@@ -68,31 +87,77 @@
       </div>
     </div>
   </div>
+  <SearchNation
+    @closeSearch="isSearchNation = false"
+    @searchNation="handleSearchNation"
+    v-if="isSearchNation"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import NiuniuLoading from './NiuniuLoading.vue'
 import { Search } from '@/api/search'
 import type { DeveloperDTO } from '@/types/DTO'
+import SearchNation from './SearchNation.vue'
 
 const list = ref<DeveloperDTO[]>([])
 
 const route = useRoute()
-const name = route.query.name as string
+const name = computed(() => route.query.name as string)
+const domain = computed(() => route.query.domain as string)
 
 onMounted(() => {
-  Search.searchDeveloper(name).then(res => {
-    // console.log(res)
-    list.value = res as unknown as DeveloperDTO[]
-  })
+  fetchResult()
 })
 
-const sumPage = ref(16) // 总页数
+const nation = ref()
+const isSearchNation = ref(false)
+const handleSearchNation = (res: string) => {
+  isSearchNation.value = false
+  nation.value = res
+}
+
+// 获取搜索结果列表
+const fetchResult = () => {
+  if (name.value) {
+    Search.searchDeveloper(name.value).then(res => {
+      console.log(res)
+      list.value = res as unknown as DeveloperDTO[]
+    })
+  } else if (domain.value) {
+    Search.searchDomain(domain.value).then(res => {
+      // console.log(res)
+      list.value = res as unknown as DeveloperDTO[]
+    })
+  }
+}
+
+// 监听路由变化，重新获取搜索结果
+watch(
+  () => route.query,
+  () => {
+    list.value = []
+    fetchResult()
+  },
+)
+
+// 当前页的结果列表
+const showResultList = computed(() => {
+  return list.value.slice(
+    (currentPage.value - 1) * maxPageToShow,
+    currentPage.value * maxPageToShow,
+  )
+})
+const maxPageToShow = 10 // 每页最大显示条数
+const sumPage = computed(() => {
+  return Math.ceil(list.value.length / maxPageToShow)
+}) // 总页数
 const currentPage = ref(1) // 当前页数
+// 页码展示
 const showSumPage = computed(() => {
-  const maxPageToShow = 10 // 最大展示页码数
+  const maxPageToShow = 8 // 最大展示页码数
   const pages: number[] = [] // 存储要展示的页码
   const totalPages = sumPage.value // 获取总页数
   const current = currentPage.value // 获取当前页
@@ -142,6 +207,7 @@ const changePage = (page: number) => {
   currentPage.value = page
 }
 
+// 跳转到详情页
 const router = useRouter()
 const toDetails = (i: string) => {
   router.push({ name: 'developer', params: { name: i } })
@@ -162,6 +228,7 @@ const toDetails = (i: string) => {
   --content-margin-bottom: 0.5rem;
   --page-nav-height: 3rem;
   user-select: none;
+  --developer-flex-grow: 4;
 
   .ps {
     height: calc(100% - var(--filter-height));
@@ -197,10 +264,12 @@ const toDetails = (i: string) => {
         flex-grow: 1;
         flex-basis: 80px;
         text-align: center;
+        justify-items: center;
+        flex-wrap: nowrap;
       }
 
       .filter-item.developer {
-        flex-grow: 10;
+        flex-grow: var(--developer-flex-grow);
       }
     }
 
@@ -237,7 +306,7 @@ const toDetails = (i: string) => {
         }
 
         .developer {
-          flex-grow: 10;
+          flex-grow: var(--developer-flex-grow);
           padding-left: 12px;
           display: flex;
           align-items: center;

@@ -17,7 +17,19 @@
         >大赛官网</a
       >
       <a href="#" target="_blank">算法说明</a>
-      <a href="#" target="_blank">GitHub</a>
+      <div class="github">
+        <a href="#" target="_blank">GitHub</a>
+        <div class="dropdown">
+          <a
+            href="https://github.com/santonin1989/niuniu-judger-frontend"
+            target="_blank"
+            >前端</a
+          >
+          <a href="https://github.com/Cihnomi/NiuniuJudger" target="_blank"
+            >后端</a
+          >
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -38,6 +50,34 @@ const goHome = () => {
   align-items: center;
   height: 60px;
   user-select: none;
+
+  .github {
+    position: relative;
+
+    &:hover {
+      .dropdown {
+        display: flex;
+      }
+    }
+
+    .dropdown {
+      display: none;
+      z-index: 999;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
+      background-color: var(--color-background-half);
+      backdrop-filter: var(--blur);
+      padding: 1rem;
+      flex-direction: column;
+      row-gap: 20px;
+
+      a {
+        font-size: 1rem;
+        white-space: nowrap;
+      }
+    }
+  }
 
   .title,
   .links a {

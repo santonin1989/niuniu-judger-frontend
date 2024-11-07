@@ -5,22 +5,33 @@
       <div class="repo-list">
         <div v-for="(item, index) in list01" :key="index" class="repo-item">
           <div class="repo-name">
-            <a href="#" target="_blank">{{ item.name }}</a>
+            <a :href="item.htmlUrl" target="_blank">{{ item.name }}</a>
           </div>
           <div class="repo-data">
             <div class="data-item">
               <p>&lt;重要程度 /&gt;</p>
               <p class="value">96%</p>
             </div>
-            <div class="data-item">
-              <p>&lt;贡献度 /&gt;</p>
-              <p class="value">60%</p>
-            </div>
           </div>
           <div class="repo-desc">
             {{ item.description === '' ? '暂无描述' : item.description }}
           </div>
           <div class="star-fork">
+            <div class="data-item">
+              <svg
+                class="icon"
+                viewBox="0 0 1024 1024"
+                width="200"
+                height="200"
+              >
+                <path
+                  d="M335 274.1c-14.1-14.1-36.9-14.1-50.9 0L75.4 482.7c-6.8 6.8-10.5 15.9-10.5 25.5s3.8 18.7 10.5 25.5L284 742.3c7 7 16.2 10.5 25.5 10.5s18.4-3.5 25.5-10.5c14.1-14.1 14.1-36.9 0-50.9L151.8 508.2 335 325.1c14-14.1 14-36.9 0-51zM949.5 482.7L740.9 274.1c-14.1-14.1-36.9-14.1-50.9 0-14.1 14.1-14.1 36.9 0 50.9l183.1 183.1-183.2 183.2c-14.1 14.1-14.1 36.9 0 50.9 7 7 16.2 10.5 25.5 10.5s18.4-3.5 25.5-10.5l208.6-208.6c14-14 14-36.8 0-50.9zM608.7 176.3c-19.1-5.4-39 5.7-44.4 24.8L391.1 812.5c-5.4 19.1 5.7 39 24.8 44.4 3.3 0.9 6.6 1.4 9.8 1.4 15.7 0 30.1-10.3 34.6-26.2l173.2-611.4c5.5-19.1-5.7-39-24.8-44.4z"
+                  p-id="4363"
+                  fill="#ffffff"
+                ></path>
+              </svg>
+              <p>{{ item.language }}</p>
+            </div>
             <div class="data-item">
               <svg class="icon" height="16" viewBox="0 0 16 16" width="16">
                 <path
@@ -43,22 +54,33 @@
       <div class="repo-list">
         <div v-for="(item, index) in list02" :key="index" class="repo-item">
           <div class="repo-name">
-            <a href="#" target="_blank">{{ item.name }}</a>
+            <a :href="item.htmlUrl" target="_blank">{{ item.name }}</a>
           </div>
           <div class="repo-data">
             <div class="data-item">
               <p>&lt;重要程度 /&gt;</p>
               <p class="value">96%</p>
             </div>
-            <div class="data-item">
-              <p>&lt;贡献度 /&gt;</p>
-              <p class="value">60%</p>
-            </div>
           </div>
           <div class="repo-desc">
             {{ item.description === '' ? '暂无描述' : item.description }}
           </div>
           <div class="star-fork">
+            <div class="data-item">
+              <svg
+                class="icon"
+                viewBox="0 0 1024 1024"
+                width="200"
+                height="200"
+              >
+                <path
+                  d="M335 274.1c-14.1-14.1-36.9-14.1-50.9 0L75.4 482.7c-6.8 6.8-10.5 15.9-10.5 25.5s3.8 18.7 10.5 25.5L284 742.3c7 7 16.2 10.5 25.5 10.5s18.4-3.5 25.5-10.5c14.1-14.1 14.1-36.9 0-50.9L151.8 508.2 335 325.1c14-14.1 14-36.9 0-51zM949.5 482.7L740.9 274.1c-14.1-14.1-36.9-14.1-50.9 0-14.1 14.1-14.1 36.9 0 50.9l183.1 183.1-183.2 183.2c-14.1 14.1-14.1 36.9 0 50.9 7 7 16.2 10.5 25.5 10.5s18.4-3.5 25.5-10.5l208.6-208.6c14-14 14-36.8 0-50.9zM608.7 176.3c-19.1-5.4-39 5.7-44.4 24.8L391.1 812.5c-5.4 19.1 5.7 39 24.8 44.4 3.3 0.9 6.6 1.4 9.8 1.4 15.7 0 30.1-10.3 34.6-26.2l173.2-611.4c5.5-19.1-5.7-39-24.8-44.4z"
+                  p-id="4363"
+                  fill="#ffffff"
+                ></path>
+              </svg>
+              <p>{{ item.language }}</p>
+            </div>
             <div class="data-item">
               <svg class="icon" height="16" viewBox="0 0 16 16" width="16">
                 <path
@@ -96,6 +118,17 @@ const props = defineProps<{
   username: string
 }>()
 
+onMounted(() => {
+  Project.getProjectList(props.username)
+    .then(res => {
+      console.log(res)
+      repoList.value = res as unknown as ProjectType[]
+    })
+    .catch(err => {
+      console.log(err)
+    })
+})
+
 const repoList = ref<ProjectType[]>()
 const list01 = computed(() => {
   // 返回偶数索引的项目
@@ -104,16 +137,6 @@ const list01 = computed(() => {
 const list02 = computed(() => {
   // 返回奇数索引的项目
   return repoList.value?.filter((_, index) => index % 2 !== 0)
-})
-onMounted(() => {
-  Project.getProjectList(props.username)
-    .then(res => {
-      // console.log(res)
-      repoList.value = res as unknown as ProjectType[]
-    })
-    .catch(err => {
-      console.log(err)
-    })
 })
 </script>
 
@@ -135,6 +158,7 @@ onMounted(() => {
   column-gap: 6%;
 
   .repo-list {
+    flex-basis: 50%;
     display: flex;
     flex-direction: column;
     row-gap: 4rem;
@@ -158,11 +182,11 @@ onMounted(() => {
         margin-top: 12px;
         display: flex;
         flex-wrap: wrap;
-        column-gap: 2rem;
+        column-gap: 1.6rem;
 
         .data-item {
           display: flex;
-          column-gap: 12px;
+          column-gap: 8px;
           align-items: center;
 
           .icon {

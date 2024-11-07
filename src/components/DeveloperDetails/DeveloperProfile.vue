@@ -8,7 +8,10 @@
         class="avatar-name"
       >
         <img :src="info.avatarUrl ?? avatar" alt="avatar" />
-        <div class="name">{{ info.username }}</div>
+        <div class="name">
+          <h2>{{ info.name }}</h2>
+          <p>{{ info.username }}</p>
+        </div>
         <div
           :style="`transform: translate(${tipsPosition.x + 10}px, ${tipsPosition.y - 20}px);`"
           class="tips"
@@ -82,11 +85,11 @@ const personalData = computed(() => {
     },
     {
       title: 'Domain',
-      value:
-        data.domain === '' || data.domain === null
+      value: longToShort(data.domain),
+      fullname:
+        data.domain === '' || data.domain === null || data.domain === undefined
           ? 'N/A'
-          : longToShort(data.domain),
-      fullname: data.domain,
+          : data.domain,
     },
     {
       title: 'Followers',
@@ -117,9 +120,12 @@ const handleMouseMove = (event: MouseEvent) => {
   tipsPosition.value = { x: layerX, y: layerY }
 }
 
-const longToShort = (str: string) => {
+const longToShort = (str: string | undefined | null) => {
+  if (str === null || str === undefined) {
+    return 'N/A'
+  }
   if (str.length > 10) {
-    return str.slice(0, 10) + '...'
+    return str.slice(0, 12) + '...'
   }
   return str
 }
@@ -148,8 +154,18 @@ const longToShort = (str: string) => {
       user-select: none;
 
       .name {
-        font-size: 1.8rem;
-        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        h2 {
+          font-size: 1.8rem;
+          color: white;
+        }
+
+        p {
+          font-size: 1rem;
+        }
       }
 
       img {
@@ -221,14 +237,13 @@ const longToShort = (str: string) => {
     }
 
     .data-desc {
-      max-width: 5rem;
+      max-width: 8rem;
+      font-size: 0.8rem;
       position: absolute;
       background-color: var(--color-background-half);
       border-radius: 0.5rem;
       padding: 0.8rem;
-      white-space: nowrap;
-      -webkit-backdrop-filter: var(--blur);
-      backdrop-filter: var(--blur);
+      white-space: wrap;
       top: -4px;
       transform: translateY(-100%);
       color: white;
